@@ -73,10 +73,10 @@ class CalendarPlugin(GObject.GObject):
         self.vmanager.connect('task-status-changed',
                               self.controller.update_tasks)
 
-    def close_window(self, arg):
-        # FIXME: not working, still closes GTG main window
-        self.window.hide()
-        return True  # do not destroy window
+    def close_window(self, window, arg):
+        """ Hide window instead destroying it """
+        window.hide()
+        return True
 
     def on_statusbar_text_pushed(self, text):
         """ Adds the @text to the statusbar """
