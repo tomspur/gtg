@@ -70,6 +70,7 @@ class BackendsCombo(Gtk.ComboBox):
         '''
         self.liststore.clear()
         backend_types = BackendFactory().get_all_backends()
+        print("ALL BACKENDS", backend_types)
         ordered_backend_types = sorted(
             backend_types.items(),
             key=lambda btype: btype[1].Backend.get_human_default_name())
@@ -77,8 +78,8 @@ class BackendsCombo(Gtk.ComboBox):
             # FIXME: Disable adding another localfile backend.
             # It just produce many warnings, provides no use case
             # See LP bug #940917 (Izidor)
-            if name == "backend_localfile":
-                continue
+            #if name == "backend_localfile":
+            #    continue
             pixbuf = self.dialog.get_pixbuf_from_icon_name(name, 16)
             self.liststore.append((name,
                                    module.Backend.get_human_default_name(),

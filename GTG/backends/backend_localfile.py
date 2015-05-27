@@ -111,6 +111,9 @@ class Backend(GenericBackend):
 
         Path can be relative to projects.xml
         """
+        if not self.is_default():
+            print("WOOOOH"*10, "BackendLocalFile:get_path")
+            return "/tmp/gtg/foo"
         path = self._parameters["path"]
         if os.sep not in path:
             # This is local path, convert it to absolute path
@@ -120,6 +123,9 @@ class Backend(GenericBackend):
     def initialize(self):
         """ This is called when a backend is enabled """
         super(Backend, self).initialize()
+        if not self.is_default():
+            print("WOOOOH"*10, "BackendLocalFile:initialize")
+            return
         self.doc, self.xmlproj = cleanxml.openxmlfile(
             self.get_path(), "project")
 
@@ -131,6 +137,9 @@ class Backend(GenericBackend):
         saved to a file, and the backend will be set as default.
         @param xml: an xml object containing the default tasks.
         """
+        if not self.is_default():
+            print("WOOOOH"*10, "BackendLocalFile:this_is_the_first_run")
+            return
         self._parameters[self.KEY_DEFAULT_BACKEND] = True
         cleanxml.savexml(self.get_path(), xml)
         self.doc, self.xmlproj = cleanxml.openxmlfile(
@@ -143,6 +152,9 @@ class Backend(GenericBackend):
 
         @return: start_get_tasks() might not return or finish
         """
+        if not self.is_default():
+            print("WOOOOH"*10, "BackendLocalFile:start_get_tasks")
+            return
         for node in self.xmlproj.childNodes:
             if node.nodeName != TASK_NODE:
                 continue
@@ -162,6 +174,9 @@ class Backend(GenericBackend):
 
         @param task: the task object to save
         """
+        if not self.is_default():
+            print("WOOOOH"*10, "BackendLocalFile:set_task")
+            return
         tid = task.get_id()
         # We create an XML representation of the task
         t_xml = taskxml.task_to_xml(self.doc, task)
@@ -194,6 +209,9 @@ class Backend(GenericBackend):
 
         @param tid: the id of the task to delete
         """
+        if not self.is_default():
+            print("WOOOOH"*10, "BackendLocalFile:remove_task")
+            return
         modified = False
         for node in self.xmlproj.childNodes:
             if node.nodeName == TASK_NODE and node.getAttribute("id") == tid:
@@ -214,12 +232,18 @@ class Backend(GenericBackend):
         """This functions returns status of the attempt to recover
         gtg_tasks.xml
         """
+        if not self.is_default():
+            print("WOOOOH"*10, "BackendLocalFile:backup_file_info")
+            return
         return self._backup_file_info
 
     def notify_user_about_backup(self):
         """ This function causes the inforbar to show up with the message
         about file recovery.
         """
+        if not self.is_default():
+            print("WOOOOH"*10, "BackendLocalFile:notify_user_about_backup")
+            return
         message = _(
             "Oops, something unexpected happened! "
             "GTG tried to recover your tasks from backups. \n"
